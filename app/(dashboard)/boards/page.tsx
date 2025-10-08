@@ -5,6 +5,14 @@ import { IoIosStarOutline } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { boardsFetchRequest } from "@/redux/actions/boards.actions";
 import { getCustomerDetailsRequest } from "@/redux/actions/customers.actions";
+import { jwtDecode } from "jwt-decode";
+
+interface AccessTokenPayload {
+  name: string;
+  email: string;
+  customerId: string;
+  iat?: number;
+}
 
 function Page() {
   const dispatch = useAppDispatch();
@@ -21,7 +29,13 @@ function Page() {
   const starred = false;
 
   useEffect(() => {
-    dispatch(getCustomerDetailsRequest(userId));
+    const token = localStorage.getItem("auth-token");
+
+    if (token) {
+      const decoded = jwtDecode<AccessTokenPayload>(token);
+      console.log(decoded.name, decoded.email, decoded.customerId);
+      dispatch(getCustomerDetailsRequest(decoded.customerId));
+    }
   }, [dispatch]);
 
   useEffect(() => {

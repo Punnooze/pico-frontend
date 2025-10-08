@@ -1,14 +1,16 @@
 "use client";
 import { useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
+  const router = useRouter();
   const [customerInitial, setCustomerInitial] = useState("");
   const customerDetails = useAppSelector(
     (state) => state.customers.customerDetails
   );
   useEffect(() => {
-    console.log("customer details:", customerDetails);
     if (customerDetails) {
       const nameArray = customerDetails.name.split(" ");
       if (nameArray.length >= 2)
@@ -18,6 +20,13 @@ function Navbar() {
         );
     }
   }, [customerDetails]);
+
+  const handleLogout = () => {
+    Cookies.remove("isAuthenticated");
+    localStorage.removeItem("auth-token");
+    router.refresh();
+  };
+  
   return (
     <div className="border-b border-secondary-bg px-[20px] py-[10px] flex justify-between items-center">
       <div className="flex items-center gap-[5px] bg-secondary-bg w-fit rounded-[5px] px-[10px] py-[7px]">
@@ -37,7 +46,10 @@ function Navbar() {
           Search
         </button>
       </div>
-      <div className="rounded-full bg-primary-accent w-[40px] h-[40px] flex items-center justify-center">
+      <div
+        className="rounded-full bg-primary-accent w-[40px] h-[40px] flex items-center justify-center cursor-pointer"
+        onClick={() => handleLogout()}
+      >
         {customerInitial}
       </div>
     </div>
