@@ -4,19 +4,31 @@ import React, { useEffect } from "react";
 import { IoIosStarOutline } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { boardsFetchRequest } from "@/redux/actions/boards.actions";
+import { getCustomerDetailsRequest } from "@/redux/actions/customers.actions";
 
 function Page() {
   const dispatch = useAppDispatch();
   const boards = useAppSelector((state) => state.boards.boards);
   const loading = useAppSelector((state) => state.boards.loading);
   const error = useAppSelector((state) => state.boards.error);
+  const customerDetails = useAppSelector(
+    (state) => state.customers.customerDetails
+  );
+  const customerLoading = useAppSelector((state) => state.customers.loading);
+  const customerError = useAppSelector((state) => state.customers.error);
 
+  const userId = "68e5639d179c314e7fb1164d";
   const starred = false;
 
   useEffect(() => {
-    const userId = "user123"; // TODO: Get from auth
-    dispatch(boardsFetchRequest(userId));
+    dispatch(getCustomerDetailsRequest(userId));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (customerDetails) {
+      dispatch(boardsFetchRequest(customerDetails._id));
+    }
+  }, [customerDetails]);
 
   return (
     <div className="grid grid-cols-5 h-full w-full">
@@ -26,11 +38,12 @@ function Page() {
       <div className="col-span-4 p-[20px] flex flex-col mr-[100px]">
         <h1 className="font-bold text-[20px]">Your Boards</h1>
 
-        {loading && (
-          <div className="flex items-center justify-center mt-[40px]">
-            <div className="text-[18px]">Loading boards...</div>
-          </div>
-        )}
+        {loading ||
+          (customerLoading && (
+            <div className="flex items-center justify-center mt-[40px]">
+              <div className="text-[18px]">Loading boards...</div>
+            </div>
+          ))}
 
         {error && (
           <div className="flex items-center justify-center mt-[40px]">
@@ -38,8 +51,8 @@ function Page() {
           </div>
         )}
 
-        {!loading && !error && (
-          <div className="grid grid-cols-3 gap-[20px] mt-[40px]">
+        {!loading && !error && !customerLoading && !customerError && (
+          <div className="grid grid-cols-4 gap-[20px] mt-[40px]">
             {boards.map((board, index) => (
               <div
                 key={index}
@@ -60,12 +73,13 @@ function Page() {
               </div>
             ))}
 
-            <div className="rounded-md h-[170px] bg-secondary-bg flex items-center justify-center cursor-pointer hover:bg-secondary-bg/80 transition-colors">
-              <div>
-                <span className="text-[22px] font-bold mr-[10px]">+</span>Create
-                Board
-              </div>
-            </div>
+            <button
+              className="cursor-pointer rounded-md h-[170px] bg-secondary-bg flex items-center justify-center hover:bg-secondary-bg/80 transition-colors"
+              onClick={() => {}}
+            >
+              <span className="text-[22px] font-bold mr-[10px]">+</span>Create
+              Board
+            </button>
           </div>
         )}
       </div>
