@@ -1,6 +1,5 @@
-import axios from "axios";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+import { Api } from "@/utils/api";
+import networkInstance from "@/utils/networkInstance";
 
 export interface Board {
   _id: string;
@@ -11,7 +10,7 @@ export interface Board {
 
 export const getBoardsApi = async (userId: string): Promise<Board[] | []> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/boards`, {
+    const response = await networkInstance.get(Api.boards, {
       params: { userId },
     });
     return response.data;
@@ -25,7 +24,7 @@ export const createBoardApi = async (
   boardData: Partial<Board>
 ): Promise<Board> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/createBoard`, boardData);
+    const response = await networkInstance.post(Api.boards, boardData);
     return response.data;
   } catch (error) {
     console.error("Error creating board:", error);

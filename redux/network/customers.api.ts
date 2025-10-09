@@ -1,4 +1,5 @@
-import axios from "axios";
+import { Api } from "@/utils/api";
+import networkInstance from "@/utils/networkInstance";
 
 export interface Customer {
   _id: string;
@@ -7,13 +8,11 @@ export interface Customer {
   favouriteBoards: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-
 export const getCustomerDetailsApi = async (
   customerId: string
 ): Promise<Customer> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/customers/${customerId}`);
+    const response = await networkInstance.get(Api.customerMe);
     return response.data;
   } catch (error) {
     console.error("Error getting Customer details :", error);

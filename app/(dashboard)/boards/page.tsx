@@ -25,7 +25,6 @@ function Page() {
   const customerLoading = useAppSelector((state) => state.customers.loading);
   const customerError = useAppSelector((state) => state.customers.error);
 
-  const userId = "68e5639d179c314e7fb1164d";
   const starred = false;
 
   useEffect(() => {
@@ -33,7 +32,6 @@ function Page() {
 
     if (token) {
       const decoded = jwtDecode<AccessTokenPayload>(token);
-      console.log(decoded.name, decoded.email, decoded.customerId);
       dispatch(getCustomerDetailsRequest(decoded.customerId));
     }
   }, [dispatch]);
