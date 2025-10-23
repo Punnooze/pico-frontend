@@ -4,12 +4,12 @@
     "name": "My first board",
     "owner": "68e6c5706c2f8a863fb414ec",
     "members": ["68e6c5706c2f8a863fb414ec", "68e6c6836c2f8a863fb414ef"],
-    "taskCounter": 5,
+    "taskCounter": 8,
     "categories": [
       {
         "id": "unassigned",
         "name": "Unassigned",
-        "taskIds": [],
+        "taskIds": ["task_006", "task_007", "task_008"],
         "order": 0,
         "color": "#808080"
       },
@@ -46,7 +46,72 @@
     "updatedAt": "2024-01-15T14:30:00Z"
   },
   "tasksByCategory": {
-    "unassigned": [],
+    "unassigned": [
+      {
+        "_id": "task_006",
+        "taskId": "T-105",
+        "name": "Update documentation",
+        "description": "Update API documentation with new endpoints and examples",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "unassigned",
+        "boardName": "My first board",
+        "categoryName": "Unassigned",
+        "priority": "low",
+        "status": "unassigned",
+        "assignee": null,
+        "dueDate": "2024-01-30",
+        "tags": [{ "name": "TECH TASK", "color": "#8B5CF6" }],
+        "timeEstimate": "3h",
+        "size": "M",
+        "createdAt": "2024-01-15T10:00:00Z",
+        "updatedAt": "2024-01-15T10:00:00Z"
+      },
+      {
+        "_id": "task_007",
+        "taskId": "T-106",
+        "name": "Fix mobile responsive issues",
+        "description": "Address layout issues on mobile devices for dashboard",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "unassigned",
+        "boardName": "My first board",
+        "categoryName": "Unassigned",
+        "priority": "high",
+        "status": "unassigned",
+        "assignee": null,
+        "dueDate": "2024-01-28",
+        "tags": [
+          { "name": "APP", "color": "#EC4899" },
+          { "name": "PWA", "color": "#6366F1" }
+        ],
+        "timeEstimate": "5h",
+        "size": "LG",
+        "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-98765",
+        "createdAt": "2024-01-16T11:20:00Z",
+        "updatedAt": "2024-01-16T11:20:00Z"
+      },
+      {
+        "_id": "task_008",
+        "taskId": "T-107",
+        "name": "Add unit tests for auth module",
+        "description": "Write comprehensive unit tests for authentication module",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "unassigned",
+        "boardName": "My first board",
+        "categoryName": "Unassigned",
+        "priority": "medium",
+        "status": "unassigned",
+        "assignee": null,
+        "dueDate": "2024-02-05",
+        "tags": [
+          { "name": "TECH TASK", "color": "#8B5CF6" },
+          { "name": "IMPROVEMENT", "color": "#10B981" }
+        ],
+        "timeEstimate": "6h",
+        "size": "XL",
+        "createdAt": "2024-01-17T09:00:00Z",
+        "updatedAt": "2024-01-17T09:00:00Z"
+      }
+    ],
     "todo": [
       {
         "_id": "task_001",
@@ -81,7 +146,10 @@
         "status": "todo",
         "assignee": null,
         "dueDate": "2024-01-18",
-        "tags": ["DCB", "TECH TASK"],
+        "tags": [
+          { "name": "DCB", "color": "#3B82F6" },
+          { "name": "TECH TASK", "color": "#8B5CF6" }
+        ],
         "timeEstimate": "8h",
         "size": "LG",
         "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-12345",
@@ -101,7 +169,11 @@
         "status": "todo",
         "assignee": null,
         "dueDate": "2024-01-25",
-        "tags": ["SBM", "IMPROVEMENT", "TECH TASK"],
+        "tags": [
+          { "name": "SBM", "color": "#F59E0B" },
+          { "name": "IMPROVEMENT", "color": "#10B981" },
+          { "name": "TECH TASK", "color": "#8B5CF6" }
+        ],
         "timeEstimate": "5h",
         "size": "XL",
         "createdAt": "2024-01-13T11:00:00Z",
@@ -122,7 +194,7 @@
         "status": "in-progress",
         "assignee": "John Doe",
         "dueDate": "2024-01-20",
-        "tags": ["APP"],
+        "tags": [{ "name": "APP", "color": "#EC4899" }],
         "timeEstimate": "6h",
         "size": "M",
         "createdAt": "2024-01-11T14:30:00Z",
@@ -141,7 +213,12 @@
         "status": "in-progress",
         "assignee": "Jane Smith",
         "dueDate": "2024-01-22",
-        "tags": ["PWA", "APP", "IMPROVEMENT", "DCB"],
+        "tags": [
+          { "name": "PWA", "color": "#6366F1" },
+          { "name": "APP", "color": "#EC4899" },
+          { "name": "IMPROVEMENT", "color": "#10B981" },
+          { "name": "DCB", "color": "#3B82F6" }
+        ],
         "timeEstimate": "7h",
         "size": "XXL",
         "createdAt": "2024-01-14T09:30:00Z",

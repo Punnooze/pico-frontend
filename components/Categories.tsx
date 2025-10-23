@@ -100,7 +100,7 @@ function Categories() {
       return;
     }
 
-    // Create optimistic update
+    // Create optimistic update for UI only (no Redux dispatch)
     const activeItems = tasksByCategory[activeContainer] || [];
     const overItems = tasksByCategory[overContainer!] || [];
     const activeIndex = activeItems.findIndex((t) => t._id === active.id);
@@ -138,33 +138,8 @@ function Categories() {
       };
     }
 
-    // Update local state for immediate UI feedback
+    // Update local state ONLY for visual feedback during drag
     setTasksByCategory(updatedTasksByCategory);
-
-    // Dispatch optimistic update to Redux
-    const optimisticId = `${active.id}_${Date.now()}`;
-    dispatch(
-      moveTaskOptimistic(
-        active.id as string,
-        activeContainer,
-        overContainer,
-        categories.find((c) => c.id === overContainer)?.name || "",
-        updatedTasksByCategory
-      )
-    );
-
-    // Dispatch API request with snapshot for rollback
-    dispatch(
-      moveTaskRequest(
-        optimisticId,
-        active.id as string,
-        boardId,
-        activeContainer,
-        overContainer,
-        categories.find((c) => c.id === overContainer)?.name || "",
-        tasksByCategory // Snapshot before change
-      )
-    );
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -186,11 +161,6 @@ function Categories() {
 
     if (!activeContainer || !overContainer) return;
 
-    // If dropping on category container (empty category), no reordering needed
-    if (isCategoryId) {
-      return;
-    }
-
     // Reorder within same category
     if (activeContainer === overContainer) {
       setTasksByCategory((prev) => {
@@ -203,6 +173,35 @@ function Categories() {
           [activeContainer]: arrayMove(items, activeIndex, overIndex),
         };
       });
+    } else {
+      // Moving between categories - dispatch Redux actions
+      const optimisticId = `${active.id}_${Date.now()}`;
+      const newCategoryName =
+        categories.find((c) => c.id === overContainer)?.name || "";
+
+      // Dispatch optimistic update to Redux
+      dispatch(
+        moveTaskOptimistic(
+          active.id as string,
+          activeContainer,
+          overContainer,
+          newCategoryName,
+          tasksByCategory
+        )
+      );
+
+      // Dispatch API request with snapshot for rollback
+      dispatch(
+        moveTaskRequest(
+          optimisticId,
+          active.id as string,
+          boardId,
+          activeContainer,
+          overContainer,
+          newCategoryName,
+          tasksByCategory // Snapshot for rollback
+        )
+      );
     }
   };
 
@@ -227,7 +226,7 @@ function Categories() {
 
           return (
             <DroppableColumn key={category.id} id={category.id}>
-              <div className="w-[240px] bg-primary-bg/70 rounded-md min-h-[200px] overflow-clip">
+              <div className="w-[220px] bg-primary-bg/70 rounded-md overflow-clip h-full">
                 <div
                   className="font-bold mb-2 p-[10px] flex justify-start"
                   style={{ backgroundColor: category.color }}
@@ -240,7 +239,11 @@ function Categories() {
                     strategy={verticalListSortingStrategy}
                   >
                     {categoryTasks.map((task) => (
-                      <TaskComponent task={task} key={task._id} />
+                      <TaskComponent
+                        task={task}
+                        key={task._id}
+                        borderColor={category.color}
+                      />
                     ))}
                   </SortableContext>
                 </div>

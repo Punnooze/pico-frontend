@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { FaCheck } from "react-icons/fa";
 
+export interface Tag {
+  name: string;
+  color: string;
+}
+
 export interface Task {
   _id: string;
   name: string;
@@ -14,7 +19,7 @@ export interface Task {
   status: string;
   assignee: string | null;
   dueDate: string;
-  tags: string[];
+  tags: Tag[];
   timeEstimate: string;
   size: "S" | "M" | "LG" | "XL" | "XXL";
   jiraTicket?: string;

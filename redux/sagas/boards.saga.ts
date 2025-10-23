@@ -85,7 +85,7 @@ function* moveTaskSaga(action: MoveTaskRequestAction) {
     yield put(moveTaskSuccess(optimisticId));
 
     // Show success toast
-    toast.success("Task moved successfully");
+    // toast.success("Task moved successfully");
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to move task";
