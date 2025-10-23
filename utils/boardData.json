@@ -1,0 +1,154 @@
+{
+  "board": {
+    "_id": "68e5647b50b6da7d17a9c32b",
+    "name": "My first board",
+    "owner": "68e6c5706c2f8a863fb414ec",
+    "members": ["68e6c5706c2f8a863fb414ec", "68e6c6836c2f8a863fb414ef"],
+    "taskCounter": 5,
+    "categories": [
+      {
+        "id": "unassigned",
+        "name": "Unassigned",
+        "taskIds": [],
+        "order": 0,
+        "color": "#808080"
+      },
+      {
+        "id": "todo",
+        "name": "To Do",
+        "taskIds": ["task_001", "task_003", "task_004"],
+        "order": 1,
+        "color": "#3B82F6"
+      },
+      {
+        "id": "in-progress",
+        "name": "In Progress",
+        "taskIds": ["task_002", "task_005"],
+        "order": 2,
+        "color": "#F59E0B"
+      },
+      {
+        "id": "review",
+        "name": "Review",
+        "taskIds": [],
+        "order": 3,
+        "color": "#8B5CF6"
+      },
+      {
+        "id": "done",
+        "name": "Done",
+        "taskIds": [],
+        "order": 4,
+        "color": "#10B981"
+      }
+    ],
+    "createdAt": "2024-01-10T10:00:00Z",
+    "updatedAt": "2024-01-15T14:30:00Z"
+  },
+  "tasksByCategory": {
+    "unassigned": [],
+    "todo": [
+      {
+        "_id": "task_001",
+        "taskId": "T-100",
+        "name": "Setup project infrastructure",
+        "description": "Set up CI/CD pipeline and deploy initial infrastructure",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "todo",
+        "boardName": "My first board",
+        "categoryName": "To Do",
+        "priority": "high",
+        "status": "todo",
+        "assignee": null,
+        "dueDate": "2024-01-15",
+        "tags": [],
+        "timeEstimate": "4h",
+        "size": "S",
+        "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-40795",
+        "createdAt": "2024-01-10T10:00:00Z",
+        "updatedAt": "2024-01-10T10:00:00Z"
+      },
+      {
+        "_id": "task_003",
+        "taskId": "T-102",
+        "name": "Implement API endpoints",
+        "description": "Build REST API endpoints for board management",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "todo",
+        "boardName": "My first board",
+        "categoryName": "To Do",
+        "priority": "high",
+        "status": "todo",
+        "assignee": null,
+        "dueDate": "2024-01-18",
+        "tags": ["DCB", "TECH TASK"],
+        "timeEstimate": "8h",
+        "size": "LG",
+        "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-12345",
+        "createdAt": "2024-01-12T09:15:00Z",
+        "updatedAt": "2024-01-12T09:15:00Z"
+      },
+      {
+        "_id": "task_004",
+        "taskId": "T-103",
+        "name": "Optimize database queries",
+        "description": "Review and optimize slow database queries for better performance",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "todo",
+        "boardName": "My first board",
+        "categoryName": "To Do",
+        "priority": "high",
+        "status": "todo",
+        "assignee": null,
+        "dueDate": "2024-01-25",
+        "tags": ["SBM", "IMPROVEMENT", "TECH TASK"],
+        "timeEstimate": "5h",
+        "size": "XL",
+        "createdAt": "2024-01-13T11:00:00Z",
+        "updatedAt": "2024-01-13T11:00:00Z"
+      }
+    ],
+    "in-progress": [
+      {
+        "_id": "task_002",
+        "taskId": "T-101",
+        "name": "Design user authentication flow",
+        "description": "Create wireframes and user flows for login and signup",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "in-progress",
+        "boardName": "My first board",
+        "categoryName": "In Progress",
+        "priority": "medium",
+        "status": "in-progress",
+        "assignee": "John Doe",
+        "dueDate": "2024-01-20",
+        "tags": ["APP"],
+        "timeEstimate": "6h",
+        "size": "M",
+        "createdAt": "2024-01-11T14:30:00Z",
+        "updatedAt": "2024-01-11T14:30:00Z"
+      },
+      {
+        "_id": "task_005",
+        "taskId": "T-104",
+        "name": "Add dark mode support",
+        "description": "Implement dark mode theme switcher and update all components",
+        "boardId": "68e5647b50b6da7d17a9c32b",
+        "categoryId": "in-progress",
+        "boardName": "My first board",
+        "categoryName": "In Progress",
+        "priority": "low",
+        "status": "in-progress",
+        "assignee": "Jane Smith",
+        "dueDate": "2024-01-22",
+        "tags": ["PWA", "APP", "IMPROVEMENT", "DCB"],
+        "timeEstimate": "7h",
+        "size": "XXL",
+        "createdAt": "2024-01-14T09:30:00Z",
+        "updatedAt": "2024-01-14T09:30:00Z"
+      }
+    ],
+    "review": [],
+    "done": []
+  }
+}

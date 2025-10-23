@@ -6,6 +6,10 @@ export interface Task {
   name: string;
   taskId: string;
   description: string;
+  boardId: string;
+  categoryId: string;
+  boardName: string;
+  categoryName: string;
   priority: "high" | "medium" | "low";
   status: string;
   assignee: string | null;
@@ -15,6 +19,7 @@ export interface Task {
   size: "S" | "M" | "LG" | "XL" | "XXL";
   jiraTicket?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 interface UnassignedTasksProps {
