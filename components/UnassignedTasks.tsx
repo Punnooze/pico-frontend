@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaCheck } from "react-icons/fa";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export interface Tag {
   name: string;
@@ -32,11 +34,18 @@ interface UnassignedTasksProps {
 }
 
 function UnassignedTasks({ task }: UnassignedTasksProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task._id });
   const [componentInFocus, setComponentInFocus] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [truncatedDescription, setTruncatedDescription] = useState("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
 
   useEffect(() => {
     // Cleanup timers on unmount
@@ -64,7 +73,10 @@ function UnassignedTasks({ task }: UnassignedTasksProps) {
     }
   }, [task]);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
     if (isSelected) {
       // If already selected, dismiss immediately
       setIsSelected(false);
@@ -104,14 +116,20 @@ function UnassignedTasks({ task }: UnassignedTasksProps) {
 
   return (
     <div
-      className="flex flex-col justify-start items-center bg-primary-bg/60 p-[10px] rounded-md w-full mb-[10px] text-[15px] px-[15px] cursor-pointer  hover:bg-primary-bg"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className="flex flex-col justify-start items-center bg-primary-bg/60 p-[10px] rounded-md w-full mb-[10px] text-[15px] px-[15px] cursor-grab active:cursor-grabbing hover:bg-primary-bg touch-none"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div className="flex w-full">
         <button
           onClick={handleClick}
-          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ease-in-out mr-3 cursor-pointer ${
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          className={`w-5 h-5 flex-shrink-0 rounded-full border-2 flex items-center justify-center transition-all duration-300 ease-in-out mr-3 cursor-pointer ${
             componentInFocus || isSelected
               ? "opacity-100 scale-100 block"
               : "opacity-0 scale-90  hidden"
