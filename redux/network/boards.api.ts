@@ -8,14 +8,22 @@ export interface Board {
   members: string[];
 }
 
-export const getBoardsApi = async (userId: string): Promise<Board[] | []> => {
+export const getAllBoardsApi = async (): Promise<Board[] | []> => {
   try {
-    const response = await networkInstance.get(Api.boards, {
-      params: { userId },
-    });
+    const response = await networkInstance.get(Api.boards);
     return response.data;
   } catch (error) {
     console.error("Error fetching boards:", error);
+    throw error;
+  }
+};
+
+export const getBoardById = async (boardId: string): Promise<Board | null> => {
+  try {
+    const response = await networkInstance.get(`${Api.boards}/${boardId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching board:", error);
     throw error;
   }
 };

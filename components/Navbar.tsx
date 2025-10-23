@@ -26,10 +26,13 @@ function Navbar() {
     localStorage.removeItem("auth-token");
     router.refresh();
   };
-  
+
   return (
-    <div className="border-b border-secondary-bg px-[20px] py-[10px] flex justify-between items-center">
-      <div className="flex items-center gap-[5px] bg-secondary-bg w-fit rounded-[5px] px-[10px] py-[7px]">
+    <div className="border-b border-secondary-bg px-[20px] py-[10px] flex justify-between items-center cursor-pointer">
+      <div
+        className="flex items-center gap-[5px] bg-secondary-bg w-fit rounded-[5px] px-[10px] py-[7px]"
+        onClick={() => router.push("/boards")}
+      >
         <p className="text-secondary-accent font-bold">P</p>
         <p className="text-primary-text font-bold">Pico</p>
       </div>

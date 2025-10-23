@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { boardsFetchRequest } from "@/redux/actions/boards.actions";
 import { getCustomerDetailsRequest } from "@/redux/actions/customers.actions";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
+import { Board } from "@/redux/network/boards.api";
 
 interface AccessTokenPayload {
   name: string;
@@ -19,6 +21,7 @@ function Page() {
   const boards = useAppSelector((state) => state.boards.boards);
   const loading = useAppSelector((state) => state.boards.loading);
   const error = useAppSelector((state) => state.boards.error);
+  const router = useRouter();
   const customerDetails = useAppSelector(
     (state) => state.customers.customerDetails
   );
@@ -26,6 +29,11 @@ function Page() {
   const customerError = useAppSelector((state) => state.customers.error);
 
   const starred = false;
+
+  const handleBoardSelect = (board: Board) => {
+    console.log(board);
+    router.push(`/boards/${board._id}`);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("auth-token");
@@ -38,7 +46,7 @@ function Page() {
 
   useEffect(() => {
     if (customerDetails) {
-      dispatch(boardsFetchRequest(customerDetails._id));
+      dispatch(boardsFetchRequest());
     }
   }, [customerDetails]);
 
@@ -69,6 +77,7 @@ function Page() {
               <div
                 key={index}
                 className="rounded-md h-[170px] flex flex-col group cursor-pointer"
+                onClick={() => handleBoardSelect(board)}
               >
                 <div className="h-[70%] w-full rounded-md rounded-b-none p-[10px] flex justify-end bg-secondary-accent">
                   <IoIosStarOutline

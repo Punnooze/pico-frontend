@@ -1,0 +1,43 @@
+{
+  "tasks": [
+    {
+      "_id": "task_001",
+      "name": "Setup project infrastructure",
+      "taskId": "T-100",
+      "description": "Set up CI/CD pipeline and deploy initial infrastructure",
+      "priority": "high",
+      "status": "todo",
+      "assignee": null,
+      "dueDate": "2024-01-15",
+      "tags": ["devops", "infrastructure"],
+      "timeEstimate": "4h",
+      "createdAt": "2024-01-10T10:00:00Z"
+    },
+    {
+      "_id": "task_002",
+      "name": "Design user authentication flow",
+      "taskId": "T-101",
+      "description": "Create wireframes and user flows for login and signup",
+      "priority": "medium",
+      "status": "in-progress",
+      "assignee": "John Doe",
+      "dueDate": "2024-01-20",
+      "tags": ["design", "auth"],
+      "timeEstimate": "6h",
+      "createdAt": "2024-01-11T14:30:00Z"
+    },
+    {
+      "_id": "task_003",
+      "name": "Implement API endpoints",
+      "taskId": "T-102",
+      "description": "Build REST API endpoints for board management",
+      "priority": "high",
+      "status": "todo",
+      "assignee": null,
+      "dueDate": "2024-01-18",
+      "tags": ["backend", "api"],
+      "timeEstimate": "8h",
+      "createdAt": "2024-01-12T09:15:00Z"
+    }
+  ]
+}
