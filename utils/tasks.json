@@ -9,8 +9,10 @@
       "status": "todo",
       "assignee": null,
       "dueDate": "2024-01-15",
-      "tags": ["devops", "infrastructure"],
+      "tags": [],
       "timeEstimate": "4h",
+      "size": "S",
+      "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-40795",
       "createdAt": "2024-01-10T10:00:00Z"
     },
     {
@@ -22,8 +24,9 @@
       "status": "in-progress",
       "assignee": "John Doe",
       "dueDate": "2024-01-20",
-      "tags": ["design", "auth"],
+      "tags": ["APP"],
       "timeEstimate": "6h",
+      "size": "M",
       "createdAt": "2024-01-11T14:30:00Z"
     },
     {
@@ -35,9 +38,39 @@
       "status": "todo",
       "assignee": null,
       "dueDate": "2024-01-18",
-      "tags": ["backend", "api"],
+      "tags": ["DCB", "TECH TASK"],
       "timeEstimate": "8h",
+      "size": "LG",
+      "jiraTicket": "https://niyoninja.atlassian.net/browse/GO-12345",
       "createdAt": "2024-01-12T09:15:00Z"
+    },
+    {
+      "_id": "task_004",
+      "name": "Optimize database queries",
+      "taskId": "T-103",
+      "description": "Review and optimize slow database queries for better performance",
+      "priority": "high",
+      "status": "todo",
+      "assignee": null,
+      "dueDate": "2024-01-25",
+      "tags": ["SBM", "IMPROVEMENT", "TECH TASK"],
+      "timeEstimate": "5h",
+      "size": "XL",
+      "createdAt": "2024-01-13T11:00:00Z"
+    },
+    {
+      "_id": "task_005",
+      "name": "Add dark mode support",
+      "taskId": "T-104",
+      "description": "Implement dark mode theme switcher and update all components",
+      "priority": "low",
+      "status": "in-progress",
+      "assignee": "Jane Smith",
+      "dueDate": "2024-01-22",
+      "tags": ["PWA", "APP", "IMPROVEMENT", "DCB"],
+      "timeEstimate": "7h",
+      "size": "XXL",
+      "createdAt": "2024-01-14T09:30:00Z"
     }
   ]
 }

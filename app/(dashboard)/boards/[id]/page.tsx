@@ -52,11 +52,11 @@ function Page() {
       {!loading ? (
         <>
           <div className="flex h-full w-full">
-            <div className="grid-cols-5 grid h-full w-full gap-[10px]">
+            <div className="grid-cols-6 grid h-full w-full gap-[10px]">
               {sidebarOpen && (
                 <div
                   className={`relative bg-secondary-bg rounded-md  ${
-                    boardOpen ? "" : "col-span-5"
+                    boardOpen ? "" : "col-span-6"
                   }`}
                 >
                   {boardOpen && (
@@ -71,7 +71,7 @@ function Page() {
               {boardOpen && (
                 <div
                   className={`${
-                    sidebarOpen ? "col-span-4" : "col-span-5"
+                    sidebarOpen ? "col-span-5" : "col-span-6"
                   } bg-secondary-bg rounded-md overflow-clip`}
                 >
                   <div className="bg-primary-accent p-[10px] flex items-center ">

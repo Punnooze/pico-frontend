@@ -159,36 +159,45 @@ function Categories() {
         collisionDetection={closestCorners}
       >
         <DroppableColumn id="column1">
-          <div className="w-[300px] bg-secondary-accent p-4 rounded-md min-h-[200px]">
-            <h3 className="font-bold mb-2">Column 1</h3>
-            <SortableContext
-              items={columns.column1.map((task) => task._id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {columns.column1.map((task) => (
-                <TaskComponent task={task} key={task._id} />
-              ))}
-            </SortableContext>
+          <div className="w-[240px] bg-primary-bg/70 rounded-md min-h-[200px] overflow-clip">
+            <div className="font-bold mb-2 p-[10px] bg-secondary-accent flex justify-start ">
+              <h3>Column 1</h3>
+            </div>
+            <div className="p-[10px] ">
+              <SortableContext
+                items={columns.column1.map((task) => task._id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {columns.column1.map((task) => (
+                  <TaskComponent task={task} key={task._id} />
+                ))}
+              </SortableContext>
+            </div>
           </div>
         </DroppableColumn>
+
         <DroppableColumn id="column2">
-          <div className="w-[300px] bg-secondary-accent p-4 rounded-md min-h-[200px]">
-            <h3 className="font-bold mb-2">Column 2</h3>
-            <SortableContext
-              items={columns.column2.map((task) => task._id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {columns.column2.map((task) => (
-                <TaskComponent task={task} key={task._id} />
-              ))}
-            </SortableContext>
+          <div className="w-[240px] bg-primary-bg/70 rounded-md min-h-[200px] overflow-clip">
+            <div className="font-bold mb-2 p-[10px] bg-secondary-accent flex justify-start ">
+              <h3>Column 2</h3>
+            </div>
+            <div className="p-[10px] ">
+              <SortableContext
+                items={columns.column2.map((task) => task._id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {columns.column2.map((task) => (
+                  <TaskComponent task={task} key={task._id} />
+                ))}
+              </SortableContext>
+            </div>
           </div>
         </DroppableColumn>
       </DndContext>
-      <div className="w-[300px] bg-secondary-accent p-4 rounded-md">
+      <div className="w-[250px] bg-secondary-accent p-4 rounded-md">
         <h3 className="font-bold mb-2">Column 3</h3>
       </div>
-      <div className="w-[300px] bg-secondary-accent p-4 rounded-md">
+      <div className="w-[250px] bg-secondary-accent p-4 rounded-md">
         <h3 className="font-bold mb-2">Column 4</h3>
       </div>
     </div>

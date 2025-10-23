@@ -12,6 +12,8 @@ export interface Task {
   dueDate: string;
   tags: string[];
   timeEstimate: string;
+  size: "S" | "M" | "LG" | "XL" | "XXL";
+  jiraTicket?: string;
   createdAt: string;
 }
 
