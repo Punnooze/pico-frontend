@@ -12,7 +12,6 @@ import {
   useDroppable,
 } from "@dnd-kit/core";
 import { Task } from "./UnassignedTasks";
-import boardData from "@/utils/boardData.json";
 import {
   arrayMove,
   SortableContext,
@@ -21,6 +20,12 @@ import {
 } from "@dnd-kit/sortable";
 import TaskComponent from "./TaskComponent";
 import type { Category } from "@/types/board.types";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  moveTaskOptimistic,
+  moveTaskRequest,
+} from "@/redux/actions/boards.actions";
+import { usePathname } from "next/navigation";
 
 // Droppable container for empty columns
 function DroppableColumn({
@@ -35,20 +40,31 @@ function DroppableColumn({
 }
 
 function Categories() {
+  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const boardId = pathname.split("/").pop() || "";
+
+  const board = useAppSelector((state) => state.boards.currentBoard);
+  const reduxTasksByCategory = useAppSelector(
+    (state) => state.boards.currentTasksByCategory
+  );
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [tasksByCategory, setTasksByCategory] = useState<
     Record<string, Task[]>
   >({});
 
   useEffect(() => {
-    // Filter out "Unassigned" category and sort by order
-    const filteredCategories = boardData.board.categories
-      .filter((cat) => cat.name !== "Unassigned")
-      .sort((a, b) => a.order - b.order);
+    // Use Redux data when available
+    if (board && reduxTasksByCategory) {
+      const filteredCategories = board.categories
+        .filter((cat) => cat.name !== "Unassigned")
+        .sort((a, b) => a.order - b.order);
 
-    setCategories(filteredCategories);
-    setTasksByCategory(boardData.tasksByCategory as Record<string, Task[]>);
-  }, []);
+      setCategories(filteredCategories);
+      setTasksByCategory(reduxTasksByCategory);
+    }
+  }, [board, reduxTasksByCategory]);
 
   const findContainer = (id: string): string | null => {
     for (const category of categories) {
@@ -84,33 +100,71 @@ function Categories() {
       return;
     }
 
-    setTasksByCategory((prev) => {
-      const activeItems = prev[activeContainer] || [];
-      const overItems = prev[overContainer!] || [];
-      const activeIndex = activeItems.findIndex((t) => t._id === active.id);
+    // Create optimistic update
+    const activeItems = tasksByCategory[activeContainer] || [];
+    const overItems = tasksByCategory[overContainer!] || [];
+    const activeIndex = activeItems.findIndex((t) => t._id === active.id);
+    const movedTask = activeItems[activeIndex];
 
-      // If dropping on empty category, just append
-      if (isCategoryId) {
-        return {
-          ...prev,
-          [activeContainer]: activeItems.filter((t) => t._id !== active.id),
-          [overContainer!]: [...overItems, activeItems[activeIndex]],
-        };
-      }
+    if (!movedTask) return;
 
-      // Otherwise, find the position
+    // Update task's category info
+    const updatedTask = {
+      ...movedTask,
+      categoryId: overContainer,
+      categoryName: categories.find((c) => c.id === overContainer)?.name || "",
+    };
+
+    let updatedTasksByCategory: Record<string, Task[]>;
+
+    if (isCategoryId) {
+      // Dropping on empty category, append
+      updatedTasksByCategory = {
+        ...tasksByCategory,
+        [activeContainer]: activeItems.filter((t) => t._id !== active.id),
+        [overContainer!]: [...overItems, updatedTask],
+      };
+    } else {
+      // Dropping at specific position
       const overIndex = overItems.findIndex((t) => t._id === over.id);
-
-      return {
-        ...prev,
+      updatedTasksByCategory = {
+        ...tasksByCategory,
         [activeContainer]: activeItems.filter((t) => t._id !== active.id),
         [overContainer!]: [
           ...overItems.slice(0, overIndex),
-          activeItems[activeIndex],
+          updatedTask,
           ...overItems.slice(overIndex),
         ],
       };
-    });
+    }
+
+    // Update local state for immediate UI feedback
+    setTasksByCategory(updatedTasksByCategory);
+
+    // Dispatch optimistic update to Redux
+    const optimisticId = `${active.id}_${Date.now()}`;
+    dispatch(
+      moveTaskOptimistic(
+        active.id as string,
+        activeContainer,
+        overContainer,
+        categories.find((c) => c.id === overContainer)?.name || "",
+        updatedTasksByCategory
+      )
+    );
+
+    // Dispatch API request with snapshot for rollback
+    dispatch(
+      moveTaskRequest(
+        optimisticId,
+        active.id as string,
+        boardId,
+        activeContainer,
+        overContainer,
+        categories.find((c) => c.id === overContainer)?.name || "",
+        tasksByCategory // Snapshot before change
+      )
+    );
   };
 
   const handleDragEnd = (event: DragEndEvent) => {

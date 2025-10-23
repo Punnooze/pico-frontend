@@ -3,15 +3,17 @@
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
-import boardData from "@/utils/boardData.json";
 import { BsInboxesFill } from "react-icons/bs";
 import UnassignedTasks, { Task } from "./UnassignedTasks";
 
 function Inbox() {
   const board = useAppSelector((state) => state.boards.currentBoard);
-  const [unassignedTasks, SetUnassignedTasks] = useState<Task[]>([]);
-  // Get tasks from "Unassigned" category
-  const tasks = (boardData.tasksByCategory.unassigned || []) as Task[];
+  const tasksByCategory = useAppSelector(
+    (state) => state.boards.currentTasksByCategory
+  );
+
+  // Get tasks from "Unassigned" category from Redux
+  const tasks = (tasksByCategory?.unassigned || []) as Task[];
 
   return (
     <div className="flex items-center flex-col w-full">

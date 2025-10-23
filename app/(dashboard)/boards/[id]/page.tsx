@@ -6,6 +6,8 @@ import { BsInboxesFill } from "react-icons/bs";
 import { usePathname, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { boardFetchByIdRequest } from "@/redux/actions/boards.actions";
+import { getCustomerDetailsRequest } from "@/redux/actions/customers.actions";
+import { jwtDecode } from "jwt-decode";
 import { BsFillKanbanFill } from "react-icons/bs";
 import { FaTableList } from "react-icons/fa6";
 import {
@@ -18,6 +20,13 @@ import {
 import Inbox from "@/components/inbox";
 import Categories from "@/components/Categories";
 
+interface AccessTokenPayload {
+  name: string;
+  email: string;
+  customerId: string;
+  iat?: number;
+}
+
 function Page() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [boardOpen, setBoardOpen] = useState(true);
@@ -28,6 +37,16 @@ function Page() {
   const loading = useAppSelector((state) => state.boards.loading);
   const error = useAppSelector((state) => state.boards.error);
   const [view, setView] = useState("Board");
+
+  // Fetch customer details on mount
+  useEffect(() => {
+    const token = localStorage.getItem("auth-token");
+
+    if (token) {
+      const decoded = jwtDecode<AccessTokenPayload>(token);
+      dispatch(getCustomerDetailsRequest(decoded.customerId));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (!boardOpen && !sidebarOpen) {
