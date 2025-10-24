@@ -12,7 +12,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
 import { Task } from "./UnassignedTasks";
 import type { Category } from "@/types/board.types";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -67,7 +67,7 @@ function BoardContent({ sidebarOpen, boardOpen }: BoardContentProps) {
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
 
-    if (!over) return;
+    if (!over || active.id === over.id) return;
 
     const activeContainer = findContainer(active.id as string);
 
@@ -81,14 +81,17 @@ function BoardContent({ sidebarOpen, boardOpen }: BoardContentProps) {
       overContainer = findContainer(over.id as string);
     }
 
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer === overContainer
-    ) {
+    if (!activeContainer || !overContainer) {
       return;
     }
 
+    // Skip state updates for within-column movements
+    // The SortableContext handles visual feedback automatically
+    if (activeContainer === overContainer) {
+      return;
+    }
+
+    // Only handle cross-category movements here
     // Create optimistic update for UI only (no Redux dispatch)
     const activeItems = tasksByCategory[activeContainer] || [];
     const overItems = tasksByCategory[overContainer!] || [];
@@ -150,36 +153,52 @@ function BoardContent({ sidebarOpen, boardOpen }: BoardContentProps) {
 
     if (!activeContainer || !overContainer) return;
 
-    // Only dispatch if moving between categories
-    if (activeContainer !== overContainer) {
-      const optimisticId = `${active.id}_${Date.now()}`;
-      const newCategoryName =
-        categories.find((c) => c.id === overContainer)?.name || "";
+    // Handle within-column reordering (local state only - no API call)
+    if (activeContainer === overContainer) {
+      const items = tasksByCategory[activeContainer] || [];
+      const activeIndex = items.findIndex((t) => t._id === active.id);
+      const overIndex = items.findIndex((t) => t._id === over.id);
 
-      // Dispatch optimistic update to Redux
-      dispatch(
-        moveTaskOptimistic(
-          active.id as string,
-          activeContainer,
-          overContainer,
-          newCategoryName,
-          tasksByCategory
-        )
-      );
+      if (activeIndex !== -1 && overIndex !== -1 && activeIndex !== overIndex) {
+        const reorderedItems = arrayMove(items, activeIndex, overIndex);
 
-      // Dispatch API request with snapshot for rollback
-      dispatch(
-        moveTaskRequest(
-          optimisticId,
-          active.id as string,
-          boardId,
-          activeContainer,
-          overContainer,
-          newCategoryName,
-          tasksByCategory // Snapshot for rollback
-        )
-      );
+        // Update local state only - no Redux dispatch, no API call
+        setTasksByCategory({
+          ...tasksByCategory,
+          [activeContainer]: reorderedItems,
+        });
+      }
+      return;
     }
+
+    // Handle moving between categories
+    const optimisticId = `${active.id}_${Date.now()}`;
+    const newCategoryName =
+      categories.find((c) => c.id === overContainer)?.name || "";
+
+    // Dispatch optimistic update to Redux
+    dispatch(
+      moveTaskOptimistic(
+        active.id as string,
+        activeContainer,
+        overContainer,
+        newCategoryName,
+        tasksByCategory
+      )
+    );
+
+    // Dispatch API request with snapshot for rollback
+    dispatch(
+      moveTaskRequest(
+        optimisticId,
+        active.id as string,
+        boardId,
+        activeContainer,
+        overContainer,
+        newCategoryName,
+        tasksByCategory // Snapshot for rollback
+      )
+    );
   };
 
   const sensors = useSensors(
