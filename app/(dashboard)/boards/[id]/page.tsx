@@ -27,7 +27,7 @@ interface AccessTokenPayload {
 }
 
 function Page() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [boardOpen, setBoardOpen] = useState(true);
   const router = useRouter();
   const pathname = usePathname();

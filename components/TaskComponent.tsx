@@ -137,7 +137,7 @@ function TaskComponent({ task, borderColor }: TaskComponentProps) {
                 }}
               >
                 <p
-                  className="text-[11px] font-bold"
+                  className="text-[9px] font-bold"
                   style={{ color: tag.color }}
                 >
                   {tag.name}
@@ -146,8 +146,8 @@ function TaskComponent({ task, borderColor }: TaskComponentProps) {
             ))}
           </div>
         )}
-        <div className="flex items-center justify-baseline gap-[40px] w-full mt-[10px]">
-          <div className="  flex gap-[7px] px-[7px] items-center  p-[5px] rounded-md bg-primary-bg/20 border-primary-bg border-[2px]">
+        <div className="flex items-center justify-baseline gap-[30px] w-full mt-[10px]">
+          <div className="  flex gap-[5px] px-[10px] items-center  p-[5px] rounded-md bg-secondary-text/20 border-secondary-text border-[2px]">
             <FaRegCalendarAlt />
             <p className="text-[14px]">{task.dueDate}</p>
           </div>
@@ -164,15 +164,17 @@ function TaskComponent({ task, borderColor }: TaskComponentProps) {
 
         <div className="mt-[10px] flex gap-[20px] items-center w-full">
           {task.assignee !== null && (
-            <div className="flex items-center gap-[5px] bg-primary-accent/30 border-[2px] border-primary-accent  rounded-md p-[9px]">
-              <IoPersonSharp className=" text-[13px]" />
-              <p className="  text-[13px]">{task.assignee}</p>
+            <div className="flex items-center gap-[5px] bg-primary-accent/20 border-[2px] border-primary-accent  rounded-md px-[10px] p-[5px]">
+              <IoPersonSharp className=" text-[13px] text-bright-blue" />
+              <p className="  text-[13px] hover:text-bright-blue">
+                {task.assignee}
+              </p>
             </div>
           )}
         </div>
         <div className="flex justify-between w-full">
           <div
-            className="flex items-center gap-[5px] mt-[20px] border-b-[1px] border-secondary-bg cursor-pointer hover:border-primary-accent transition-all duration-100"
+            className="flex items-center gap-[5px] mt-[20px] border-b-[1px] border-secondary-bg cursor-pointer hover:border-secondary-accent transition-all duration-100"
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
             onClick={(e) => {
@@ -185,7 +187,7 @@ function TaskComponent({ task, borderColor }: TaskComponentProps) {
             }}
           >
             <MdTaskAlt className="text-[17px] text-secondary-accent" />
-            <p className="text-[14px] hover:text-secondary-accent duration-100 transition-all">
+            <p className="text-[14px] text-secondary-accent duration-100 transition-all">
               {task.taskId}
             </p>
           </div>
@@ -205,7 +207,7 @@ function TaskComponent({ task, borderColor }: TaskComponentProps) {
               }}
             >
               <SiJira className="text-[15px] text-primary-accent" />
-              <p className="text-[14px] hover:text-primary-accent duration-100 transition-all">
+              <p className="text-[14px] text-bright-blue duration-100 transition-all">
                 {task.jiraTicket.split("/").pop()}
               </p>
             </div>
